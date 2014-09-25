@@ -56,12 +56,6 @@
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<?php }  ?>
 
-
-		<div id="image">
-	    <?php if ( !empty($update) ) { echo $resources_html; } ?>
-		</div>
-
-
 	</div>
 
 	<div class="panel-footer">
@@ -80,6 +74,14 @@
 
 </div><!-- <div class="tab-content"> -->
 
+<div id="image">
+   <?php if ( !empty($update) ) {
+	echo $resources_html;
+	echo $resources_scripts;
+} ?>
+</div>
+
+
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
@@ -87,15 +89,15 @@
 
 
 	$('#editFrm_generate_seo_keyword').click(function(){
-		var seo_name = $('#editFrm_category_description\\[<?php echo $language_id; ?>\\]\\[name\\]').val().replace('%','');
+		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 			$('#editFrm_keyword').val(data).change();
 		});
 	});
 
-	$('#editFrm_category_description\\[<?php echo $language_id; ?>\\]\\[description\\]').parents('.afield').removeClass('mask2');
+	$('#editFrm_category_description<?php echo $language_id; ?>description').parents('.afield').removeClass('mask2');
 
-	CKEDITOR.replace('editFrm_category_description[<?php echo $language_id; ?>][description]',
+	CKEDITOR.replace('editFrm_category_description<?php echo $language_id; ?>description',
 	{
 		filebrowserBrowseUrl : false,
 	    filebrowserImageBrowseUrl : '<?php echo $rl; ?>',

@@ -44,10 +44,12 @@
 				<?php echo $menu; ?>
 			</div>
 
-			<div class="infosummary">
+			<div class="side_summary">
 				<?php include($template_dir . '/template/common/summary.tpl'); ?>
 			</div>
-			<!-- infosummary -->
+			<!-- side_summary -->
+
+			<?php echo $this->getHookVar('leftpanel_bottom'); ?>
 
 		</div>
 		<!-- leftpanelinner -->
@@ -212,8 +214,7 @@
 				</li>
 				<li>
 					<button id="right_side_view" class="btn btn-default tp-icon chat-icon">
-						<i class="fa fa-globe fa-lg"></i>
-						<span class="badge">2</span>
+						<i class="fa fa-folder fa-lg"></i>
 					</button>
 				</li>
 			</ul>
@@ -241,9 +242,8 @@
 			<?php if ($current_menu['icon']) { ?>
 				<?php echo $current_menu['icon']; ?>
 			<?php } else { ?>
-			<i class="fa fa-th-list">
+			<i class="fa fa-th-list"></i>
 				<?php } ?>
-			</i>
 			<?php if ($current && $current['text']) {
 				echo $current['text'];
 			} else {
