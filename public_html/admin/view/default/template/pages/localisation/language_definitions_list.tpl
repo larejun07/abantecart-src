@@ -1,14 +1,21 @@
-<?php if ($error_warning) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<ul class="content-nav">
-			<li>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a id="insert_btn"
+				   class="actionitem btn btn-primary tooltips"
+				   data-toggle="modal"
+				   data-target="#ld_modal"
+				   href="<?php echo $insert; ?>"
+				   title="<?php echo $button_add; ?>">
+				<i class="fa fa-plus fa-fw"></i>
+				</a>
+			</div>
+
+			<div class="btn-group mr10 toolbar">
 				<?php
 				if (!empty($search_form)) {
 					?>
@@ -28,110 +35,43 @@
 						}
 						?>
 						<div class="form-group">
-							<button type="submit"
-									class="btn btn-xs btn-primary"><?php echo $search_form['submit']->text ?></button>
-							<button type="reset" class="btn btn-xs btn-default"><i class="fa fa-refresh"></i></button>
-						</div>
+						        <button type="submit" class="btn btn-xs btn-primary tooltips" title="<?php echo $button_filter; ?>">
+						                        <?php echo $search_form['submit']->text ?>
+						        </button>
+						        <button type="reset" class="btn btn-xs btn-default tooltips" title="<?php echo $button_reset; ?>">
+						                <i class="fa fa-refresh"></i>
+						        </button>
+						</div>						
 					</form>
 				<?php
 				}
 				?>
-			</li>
-			<li>
-				<a id="insert_btn" class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
-							class="fa fa-plus-circle"></i></a>
-			</li>
-
-			<?php if (!empty ($form_language_switch)) { ?>
-				<li>
-					<?php echo $form_language_switch; ?>
-				</li>
-			<?php } ?>
-			<?php if (!empty ($help_url)) { ?>
-				<li>
-					<div class="help_element">
-						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
-						</a></div>
-				</li>
-			<?php } ?>
-		</ul>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<?php echo $listing_grid; ?>
 			</div>
 		</div>
-	</div>
-</div>
 
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
+</div>
 
 <?php
 echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'ld_modal',
 				'modal_type' => 'lg',
-				'content' => '',
-				'title' => $text_please_confirm,
+				'data_source' => 'ajax'
 		));
 ?>
 
 <script type="text/javascript">
-
 	var grid_ready = function(){
-		$('.grid_action_edit').click(
-
-		function () {
-
-			var href = $(this).attr('href');
-
-			$.ajax({
-				url:href,
-				type:'GET',
-				dataType:'json',
-				success:function (data) {
-					if (data == '' || data == null) {
-						return null;
-					} else {
-						if (data.html) {
-							$('#ld_modal .modal-body').html(data.html);
-							$('#ld_modal .modal-title').html(data.title);
-						}
-						$('#ld_modal').modal('show');
-					}
-				}
-			});
-			return false;
+		$('.grid_action_edit').each( function () {
+			$(this).attr('data-toggle','modal').attr('data-target','#ld_modal');
 		});
 	}
-
-	$('#insert_btn').click(
-
-			function () {
-
-				var href = $(this).attr('href');
-
-				$.ajax({
-					url:href,
-					type:'GET',
-					dataType:'json',
-					success:function (data) {
-						if (data == '' || data == null) {
-							return null;
-						} else {
-							if (data.html) {
-								$('#ld_modal .modal-body').html(data.html);
-								$('#ld_modal .modal-title').html(data.title);
-							}
-							$('#ld_modal').modal('show');
-						}
-					}
-				});
-				return false;
-			});
 
 </script>

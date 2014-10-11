@@ -1,13 +1,6 @@
-<?php if ($error_warning) { ?>
-	<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $setting_tabs ?>
-
-
 
 <div class="tab-content">
 	<div class="panel-heading">
@@ -27,21 +20,21 @@
 				</ul>
 			</div>
 			<?php if($store_id>0){ ?>
-				<a class="itemopt  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
+				<a class="actionitem  tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>"><i class="fa fa-edit fa-2x"></i></a>
 			<?php } ?>
 			<?php if($delete_store_button){ ?>
-				<a class="itemopt  tooltips"
+				<a class="actionitem  tooltips"
 				   title="<?php echo $delete_store_button->title; ?>"
 				   href="<?php echo $delete_store_button->href; ?>"
 				   data-confirmation="delete"
 					><i class="fa fa-trash-o fa-2x"></i></a>
 			<?php } ?>
-			<a class="itemopt tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-2x"></i></a>
+			<a class="actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus-circle fa-lg fa-2x"></i></a>
 			<div class="pull-right">
 				<div class="btn-group mr10 toolbar">
 					<?php if (!empty ($help_url)) : ?>
 					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-					<i class="fa fa-question-circle"></i>
+					<i class="fa fa-question-circle fa-lg"></i>
 					</a>
 					<?php endif; ?>
 				</div>
@@ -108,8 +101,7 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-$('#store_description<?php echo $content_language_id; ?>description').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('store_description<?php echo $content_language_id; ?>description', {
+CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][description]', {
 	filebrowserBrowseUrl : false,
     filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
     filebrowserWindowWidth : '920',

@@ -1,40 +1,26 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<ul class="content-nav">
-			<li class="pull-right">
-				<a class="itemopt" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>"><i
-							class="fa fa-plus-circle"></i></a>
-			</li>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-			<?php if (!empty ($form_language_switch)) { ?>
-				<li class="pull-right">
-					<?php echo $form_language_switch; ?>
-				</li>
-			<?php } ?>
-			<?php if (!empty ($help_url)) { ?>
-				<li class="pull-right">
-					<div class="help_element">
-						<a href="<?php echo $help_url; ?>" target="new">
-							<i class="fa fa-question-circle"></i>
-						</a></div>
-				</li>
-			<?php } ?>
-		</ul>
-	</div>
-</div>
+<div id="content" class="panel panel-default">
 
-<div class="row">
-	<div class="col-sm-12 col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-		<?php echo $listing_grid; ?>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="dropdown dropdown-toggle">
+			    <a data-toggle="dropdown" href="#" class="btn btn-primary dropdown-toggle tooltips" title="<?php echo $button_add; ?>" >
+			    <i class="fa fa-plus fa-fw"></i>  
+			    <span class="caret"></span></a>
+			    <ul class="dropdown-menu " role="menu">
+			    	<?php foreach($inserts as $in){ ?>
+			    		<li><a href="<?php echo $in['href'] ?>" ><?php echo $in['text']; ?></a></li>
+			    	<?php } ?>
+			    </ul>
 			</div>
 		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
 </div>

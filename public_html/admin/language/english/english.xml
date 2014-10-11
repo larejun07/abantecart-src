@@ -399,7 +399,7 @@
 	</definition>
 	<definition>
 		<key>search_everywhere</key>
-		<value><![CDATA[Search Everywhere]]></value>
+		<value><![CDATA[Search Entire Site]]></value>
 	</definition>
 	<definition>
 		<key>column_action</key>
@@ -604,6 +604,46 @@
 	<definition>
 		<key>new_orders</key>
 		<value><![CDATA[New Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Saved Successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_processing</key>
+		<value><![CDATA[Processing ...]]></value>
+	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[Next]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Previous]]></value>
+	</definition>
+	<definition>
+		<key>text_on</key>
+		<value><![CDATA[ON]]></value>
+	</definition>
+	<definition>
+		<key>text_off</key>
+		<value><![CDATA[OFF]]></value>
+	</definition>
+	<definition>
+		<key>text_external_help</key>
+		<value><![CDATA[External Help]]></value>
+	</definition>
+	<definition>
+		<key>text_select_from_lookup</key>
+		<value><![CDATA[Type beginning of the name to look up and select]]></value>
+	</definition>	
+	<definition>
+		<key>text_continue_typing</key>
+		<value><![CDATA[Continue typing ...]]></value>
+	</definition>
+	<definition>
+		<key>text_looking_for</key>
+		<value><![CDATA[Looking for]]></value>
 	</definition>
 	
 </definitions>

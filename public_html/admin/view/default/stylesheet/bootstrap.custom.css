@@ -349,6 +349,12 @@ h4, .h4 {
    -webkit-box-shadow: none;
    box-shadow: none;
 }
+.btn-xs {
+    padding: 1px 8px;
+}
+.content_language .btn-xs {
+	padding: 5px 8px;
+}
 
 .badge {
    -moz-border-radius: 2px;
@@ -396,29 +402,32 @@ h4, .h4 {
 
 .panel-heading,
 .panel-footer {
-   background: #fff;
-   border-color: #eee;
-   padding: 15px !important;
+ 	background: #fff;
+	border-color: #eee;
+	padding: 15px !important;
 }
 .panel-heading {
 	min-height: 55px;
 }
+.tab-content > .panel-heading {
+	padding: 10px !important;
+}
 
 .panel-default > .panel-heading {
-   border-color: #e7e7e7;
-   background-color: #fff;
+	border-color: #e7e7e7;
+	background-color: #fff;
 }
 
 .panel-heading-empty {
-   background: none;
-   border-bottom: 0;
+	background: none;
+	border-bottom: 0;
 }
 
 .panel-heading p {
-   font-size: 13px;
-   margin-top: 10px;
-   margin-bottom: 0;
-   color: #77818e;
+	font-size: 13px;
+	margin-top: 10px;
+	margin-bottom: 0;
+	color: #77818e;
 }
 
 .panel-primary .panel-heading,
@@ -574,8 +583,7 @@ h4, .h4 {
    border-bottom: 0;
 }
 
-
-.panel-heading .itemopt .fa {
+.panel-heading .actionitem .fa {
 	vertical-align: middle;
 }
 
@@ -654,6 +662,12 @@ h4, .h4 {
    background-color: #f7f7f7;
 }
 
+.input-group-addon:empty{
+	padding: 0;
+	border: 0;
+	width: 0;
+}
+
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
@@ -690,7 +704,6 @@ h4, .h4 {
 
 .dropdown-menu > li > a {
    padding: 7px 10px;
-   color: #666;
 }
 
 .dropdown-menu > li > a:hover {
@@ -757,6 +770,7 @@ h4, .h4 {
    -moz-border-radius: 2px;
    -webkit-border-radius: 2px;
    border-radius: 2px;
+   margin-bottom: 10px;
 }
 
 .alert .close {

@@ -438,30 +438,35 @@ function getURLVar(URL, urlVarName) {
 // Function to show notification
 //-----------------------------------------
 function success_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'success';
 	var icon = 'fa fa-check';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function error_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'danger';
 	var icon = 'fa fa-thumbs-down';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function warning_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'warning';
 	var icon = 'fa fa-flash';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function info_alert(text, autohide, elm ) {
+    if(text.length==0){ return false;}
 	var type = 'info';
 	var icon = 'fa fa-info';
 	return notice(text, autohide, elm, type, icon);
 }
 
 function notice(text, autohide, elm, type, icon) {
+    if(text.length==0){ return false;}
 	if (type == null) {
 		return;
 	}
@@ -486,15 +491,68 @@ function notice(text, autohide, elm, type, icon) {
 			exit: 'animated fadeOutRight'
 		}	
 	});
+	return growl;
 }
+
+function remove_alert(growl) {
+	growl.close();
+}
+
 //-----------------------------------------
 
-// Error detection wrapper on ajax reply.
+// global error handler.
+// If you don't need to use it in your custom ajax-call set ajax option "global" to "false"
 $(document).ajaxError(function (e, jqXHR, settings, exception) {
 	//If 401 authentication issue redirect for user to login
     if(jqXHR.status == 401){
         window.location.reload();
+        return;
     }
+
+    var gl_error_alert = function (text, autohide) {
+        if(text.length==0){ return false;}
+    	if (isModalOpen()) {
+    		error_alert(text, autohide, '.modal-content');
+    	} else {
+    		error_alert(text, autohide);
+    	}
+    }
+
+    var isModalOpen = function () {
+        var result = false;
+        $('div.modal').each(function(){
+           var id = $(this).attr('id');
+
+            if(id!=undefined){
+                if (typeof $('#'+id).data === 'function' && $('#'+id).data('bs.modal') != undefined && $('#'+id).data('bs.modal').isShown) {
+                    result = true;
+                }
+            }
+        });
+
+    	return result;
+    }
+
+    try {
+        var err = $.parseJSON(jqXHR.responseText);
+        if (err.hasOwnProperty("error_text")) {
+            var errors = err.error_text;
+            var errlist = typeof errors === 'string' ? [errors] : errors;
+
+            if (errlist.length > 0) {
+                for (var k in errlist) {
+                    if(errlist[k].length>0){
+                        gl_error_alert(errlist[k], false);
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        if(jqXHR.responseText.length>0){
+            gl_error_alert(jqXHR.responseText, false);
+        }
+    }
+
 });
 
 

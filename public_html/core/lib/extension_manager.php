@@ -108,7 +108,7 @@ class AExtensionManager {
 							 `priority` = '" . $this->db->escape($priority) . "',
 							 `version` = '" . $this->db->escape($version) . "',
 							 `license_key` = '" . $this->db->escape($license_key) . "',
-							 `create_date` = NOW()");
+							 `date_added` = NOW()");
 		return $this->db->getLastId();
 	}
 
@@ -238,7 +238,7 @@ class AExtensionManager {
 				return false;
 			}
 		}
-
+		unset($data['one_field']); //remove sign to prevent writing into settings table
 		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
 						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
 						        AND `key` IN ('" . implode("', '", $keys) . "')
@@ -317,8 +317,7 @@ class AExtensionManager {
 								$this->db->query($sql);
 							}
 							$sql = "UPDATE " . DB_PREFIX . "extensions
-									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "',
-										`update_date` = NOW()
+									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
 									WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
 							$this->db->query($sql);
 						}
@@ -340,7 +339,7 @@ class AExtensionManager {
 		}
 		// update date of changes in extension list
 		$sql = "UPDATE " . DB_PREFIX . "extensions
-						SET `update_date` = NOW()
+						SET `date_modified` = NOW()
 						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 		$this->db->query($sql);
 		$this->cache->delete('admin_menu');
@@ -374,7 +373,7 @@ class AExtensionManager {
 		$extension_info = $this->getExtensionsList(array('search' => $name));
 		$extension_id = $extension_info->row['extension_id'];
 
-		$validate = $this->validateCoreVersion($extension_id, $config);
+		$validate = $this->validateCoreVersion($extension_info->row['key'], $config);
 		$errors = $ext->getError();
 
 		if ($errors) {

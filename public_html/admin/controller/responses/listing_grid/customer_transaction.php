@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridCustomerTransaction extends AController {
 
 	public $data = array();
-	public $errors = array();
+	public $error = array();
 
 	public function main() {
 
@@ -89,7 +89,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		foreach ($results as $result) {
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_transaction_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'create_date' ],
+				$result[ 'date_added' ],
 				$result[ 'user' ],
 				$result[ 'debit' ],
 				$result[ 'credit' ],
@@ -112,7 +112,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$output['debit'] = (float)$data['debit'];
 
 		if(!$output['credit'] && !$output['debit']){
-			$this->errors[] = $this->language->get('error_empty_debit_credit');
+			$this->error[] = $this->language->get('error_empty_debit_credit');
 		}
 
 		if($data['transaction_type'][1]){
@@ -123,7 +123,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		}
 
 		if(!$output['transaction_type']){
-			$this->errors[] = $this->language->get('error_transaction_type');
+			$this->error[] = $this->language->get('error_transaction_type');
 		}
 		$output['transaction_type'] = htmlentities($output['transaction_type'],ENT_QUOTES,'UTF-8');
 		$output['comment'] = htmlentities($data['comment'],ENT_QUOTES,'UTF-8');
@@ -155,7 +155,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$valid_data = $this->_validateForm($this->request->post);
         $valid_data['customer_id'] = $this->request->get['customer_id'];
 
-		if(!$this->errors){
+		if(!$this->error){
             $this->model_sale_customer_transaction->addCustomerTransaction($valid_data);
 			$result['result'] = true;
 			$result['result_text'] = $this->language->get('text_transaction_success');
@@ -165,8 +165,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		}else{
 			$error = new AError('');
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
-				array( 'error_text' => implode('<br>',$this->errors),
-					'reset_value' => true
+				array( 'error_text' => $this->error,
+						'reset_value' => true
 				));
 		}
 
@@ -283,8 +283,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																	));
 
 			if($readonly){
-				$this->data['form']['fields']['create_date'] = dateInt2Display($info['create_date'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$this->data['form']['fields']['update_date'] = dateInt2Display($info['update_date'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_added'] = dateInt2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_modified'] = dateInt2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
 			}
 
 

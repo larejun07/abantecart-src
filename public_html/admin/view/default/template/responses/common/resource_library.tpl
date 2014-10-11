@@ -61,21 +61,21 @@ if ($action == 'list_object') {
 				</li>
 				<?php if (has_value($active_object)) { ?>
 					<li>
-						<a class="itemopt disabled rl_save_multiple" onclick="return false;" href="#"><i
+						<a class="actionitem disabled rl_save_multiple" onclick="return false;" href="#"><i
 									class="fa fa-save"></i></a>
 					</li>
 				<?php }
 			if($mode!='single'){
 
 				if($action=='list_object'){ ?>
-					<li><a class="itemopt disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
+					<li><a class="actionitem disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
 						   data-original-title="<?php echo $txt_unlink_resource; ?>"><i class="fa fa-unlink"></i></a></li>
 				<?php }else{ ?>
-					<li><a class="itemopt disabled rl_link_multiple tooltips" onclick="return false;" href="#"
+					<li><a class="actionitem disabled rl_link_multiple tooltips" onclick="return false;" href="#"
 						   data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a></li>
 				<?php } ?>
 				<li>
-					<a class="itemopt disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
+					<a class="actionitem disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
 					   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
 				</li>
 				<?php
@@ -89,7 +89,7 @@ if ($action == 'list_object') {
 					<li>
 						<a class="btn btn-white btn-xs tooltips" href="<?php echo $help_url; ?>" target="new" title=""
 						   data-original-title="Help">
-							<i class="fa fa-question-circle"></i>
+							<i class="fa fa-question-circle fa-lg"></i>
 						</a>
 					</li>
 				<?php } ?>
@@ -187,8 +187,8 @@ if ($action == 'list_object') {
 															data-rl-id="<?php echo $rl['resource_id']; ?>"
 															data-original-title="<?php echo $rl['name']; ?>"
 															href="#"><?php echo $rl['name']; ?></a></h5>
-									<?php if ($rl['created']) { ?>
-										<small class="text-muted">Added: <?php echo $rl['created']; ?></small>
+									<?php if ($rl['date_added']) { ?>
+										<small class="text-muted">Added: <?php echo $rl['date_added']; ?></small>
 									<?php } ?>
 								</div>
 							</div>
@@ -212,10 +212,10 @@ if ($action == 'list_object') {
 											<i class="fa fa-sort"></i>
 										</button>
 										<ul id="rl_list_sorting" role="menu" class="dropdown-menu">
-											<li><a href="<?php echo $no_sort_url; ?>&sort=created&order=DESC"><i
+											<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=DESC"><i
 															class="fa fa-sort-amount-desc"></i> <?php $text_sorting_date_desc; ?>
 												</a></li>
-											<li><a href="<?php echo $no_sort_url; ?>&sort=created&order=ASC"><i
+											<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=ASC"><i
 															class="fa fa-sort-amount-asc"></i> <?php $text_sorting_date_asc; ?>
 												</a></li>
 											<li><a href="<?php echo $no_sort_url; ?>&sort=name&order=ASC"><i

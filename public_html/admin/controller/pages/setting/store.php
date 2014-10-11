@@ -152,10 +152,10 @@ class ControllerPagesSettingStore extends AController {
 			$stores[$result['store_id']] = array(
 												'name' => $result['alias'],
 												'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&store_id='.$result['store_id']));
-			$store_options[$result['store_id']] = $result['store_id'];
+			$store_options[$result['store_id']] = $result['alias'];
 		}
 
-		$this->data['stores'] = $stores;
+		$this->data['all_stores'] = $stores;
 		$this->data['current_store'] = $stores[(int)$this->data['store_id']]['name'];
 
         if ($this->data['delete']) {

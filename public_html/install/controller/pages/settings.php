@@ -46,15 +46,11 @@ class ControllerPagesSettings extends AController {
 		$template_data['extensions'] = DIR_ABANTECART . 'extensions';
 		$template_data['resources'] = DIR_ABANTECART . 'resources';
 		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
-		$template_data['button_continue'] = $this->html->buildButton(array(
-				'name' => 'continue',
-				'text' => 'Continue >>',
-				'style' => 'button1')
-		);
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
-		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
+		$this->addChild('common/footer', 'footer', 'common/footer.tpl');	
 
+		$this->view->assign('back', HTTP_SERVER . 'index.php?rt=license');
 		$this->view->batchAssign($template_data);
 		$this->processTemplate('pages/settings.tpl');
 	}

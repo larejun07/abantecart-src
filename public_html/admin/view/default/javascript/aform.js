@@ -42,7 +42,9 @@
             },
             showButtons:true,
             autoHide:true,
-            save_url:''
+            save_url:'',
+            processing_txt: 'Processing ...',
+            saved_txt: 'Saved'
         },
         wrapper:'<div class="form-group" />',
         mask:'<div class="input-group afield" />'
@@ -216,32 +218,30 @@
         }
 
         function doCheckbox(elem) {
-            var $el = $(elem);
+			var $field = $(elem);
+            var $wrapper = $field.parent('.afield');
 
-            var $wrapper = '';
-            var $field = $el.closest('.afield');
-
-            if (!$el.parents('.scrollbox').length && !$('label[for='+$el.attr('id')+']') ) {
-                $field.wrap($.aform.wrapper);
-                $wrapper = $el.closest('.aform');
+            if (!$field.parents('.scrollbox').length && !$('label[for='+$field.attr('id')+']') ) {
+                $wrapper.wrap($.aform.wrapper);
+                $wrapper = $field.closest('.aform');
             }
 
-            if ($el.is(':hidden') && o.autoHide) {
-               // $wrapper.hide();
+            if ($field.is(':hidden') && o.autoHide) {
+               //$wrapper.hide();
             }
 
-            if ($el.prop("disabled")) {
-                $field.addClass(o.disabledClass);
+            if ($field.prop("disabled")) {
+                $wrapper.addClass(o.disabledClass);
             }
 
-            $el.bind({
+            $field.bind({
                 "change.aform":function () {
-                    if (!$el.prop("checked")) {
-                        $field.removeClass(o.checkedClass);
+                    if (!$field.prop("checked")) {
+                        $wrapper.removeClass(o.checkedClass);
                     } else {
-                        $field.addClass(o.checkedClass);
+                        $wrapper.addClass(o.checkedClass);
                     }
-                    onChangedAction($el, $(this).prop("checked"), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -279,9 +279,13 @@
 
         function doSwitchButton(elem) {
             var $field = $(elem);
+
             var $wrapper = $field.parent('.afield');
 			
 			$wrapper.find('button').on( "click" ,function () {
+                if($field.hasClass('disabled')){
+                    return false;
+                }
             	flip_aswitch($field);
             	onChangedAction($field, $field.val(), $field.attr('data-orgvalue'));
             	return false;
@@ -327,7 +331,8 @@
             $field.bind({
                 "change.aform":function () {
                     $field.removeClass(o.activeClass);
-                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
+    				var optionSelected = $("option:selected", this);
+                    onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
                 },
                 "focus.aform":function () {
                     $field.addClass(o.focusClass);
@@ -350,7 +355,8 @@
                         $(o.btnGrpSelector, $wrapper).find('a:eq(0)').trigger('click');
                     } else {
                         $field.removeClass(o.activeClass);
-                        onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
+	    				var optionSelected = $("option:selected", this);
+                        onChangedAction($field, $(optionSelected).val(), $(optionSelected).attr('data-orgvalue'));
                     }
                 }
             });
@@ -455,7 +461,6 @@
 
             if ($triggerOnEdit) {
                 var $changed = 0;
-
 				//see if check boxes are changes
                 $field.closest('div').find(':checkbox').each(function () {
                 	if (String($field.hasClass("checked")) != $(this).attr('data-orgvalue')) {
@@ -464,11 +469,27 @@
                 	}
                 });
 
+				//check if select box and value is returned. 
+				if ( $field.is("select") ) {
+		        	//for select data-orgvalue is present in each option regardles of multiselect or single
+					$changed = 0;
+		            $field.find('option').each(function () {
+		                if ( $(this).attr('data-orgvalue') === "true" && $(this).attr('selected') != 'selected') {
+		                	$changed++;
+		                } else if ($(this).attr('data-orgvalue') === "false" && $(this).attr('selected') == 'selected') {
+		                	$changed++;		                
+		                } else if ( !$(this).attr('data-orgvalue') ) {
+		                	$changed++;		                
+		                }
+		            });		            
+					value = orgvalue;
+				}	
+
                 if ((String(value) != String(orgvalue) || $changed > 0)) {
 					//mark filed chaneged
                 	$field.addClass(o.changedClass);
                 	//build quick save button set
-                	showQuickSave($field);
+                	showQuickSave($field);	
                 } else {
                 	//clean up
 					$field.removeClass(o.changedClass);
@@ -517,7 +538,6 @@
 		        $e.change();
 		    });
 			//remove errors if any
-			$wrapper.parent().find('.ajax_result').remove();
 			$wrapper.parent().removeClass('has-error');
 			$field.removeClass('has-error');
 		}
@@ -540,6 +560,8 @@
 		            $e.attr('data-orgvalue', $e.val());
 		        } else if ($e.is(":checkbox")) {
 		        	$e.attr('data-orgvalue', ($e.prop("value") == 1 ? 'true' : 'false'));
+		        } else {
+		            $e.attr('data-orgvalue', $e.val());
 		        }
 		    });
 		}
@@ -547,8 +569,9 @@
 		//Show Quick Save buttons and all related
 		function showQuickSave(elem){
             var $field = $(elem);
+            var $wrapper = $(elem).closest('.afield');
             //locate btn container if it is present
-            var $btncontainer = $field.closest('div').find(o.btnContainer);
+            var $btncontainer = $wrapper.find(o.btnContainer);
 
 			//show quicksave button set only if not yet shown or configured
 			if (!o.showButtons || $btncontainer.find(o.btnGrpSelector).length != 0) {
@@ -557,8 +580,8 @@
 
 			//can not find input-group-addon span button container create new one
 			if ($btncontainer.length == 0) {
-			    $field.closest('div').append(o.btnContainerHTML);
-			    $btncontainer = $field.closest('div').find(o.btnContainer);
+			    $wrapper.append(o.btnContainerHTML);
+			    $btncontainer = $wrapper.find(o.btnContainer);
 			}
 			
 			//add quick save button classes and tooltips	
@@ -568,7 +591,6 @@
 			
 			//add changed class to button container
 			$btncontainer.parent('.afield').addClass(o.changedClass);
-			$('.ajax_result, .field_err', $btncontainer).remove();
 			$(o.btnGrpSelector, $btncontainer).css('display', 'inline-block');
 			//bind events for buttons
 			$(o.btnGrpSelector, $btncontainer).find('a').unbind('click'); // to prevent double binding			
@@ -589,10 +611,11 @@
 			         $(o.btnGrpSelector, $btncontainer).remove();
 			         $('.field_err', $btncontainer).remove();
 			         $btncontainer.removeClass('quicksave');
-			     	//remove button container if it is empty
-			     	if( ($btncontainer.text()).length == 0 ){
-			     		$btncontainer.remove();
-			     	}
+			     	 //remove button container if it is empty
+			     	 if( ($btncontainer.text()).length == 0 ){
+			     	 	//do not remove for now. Isues in country/zones
+			     		//$btncontainer.remove();
+			     	 }
 			     }
 			 });
 			
@@ -602,8 +625,14 @@
 		//Remove Quick Save buttons and all related
 		function removeQuickSave(elem){
             var $field = $(elem);
+			var $wrapper = $field.closest('.afield');
+			//remove all changed states (case with multiple elements in 1 set)
+			$wrapper.find('input, textarea, select').each(function () {
+				$e = $(this);
+				$e.removeClass(o.changedClass);
+			});
             //locate btn container if it is present
-            var $btncontainer = $field.closest('div').find(o.btnContainer);
+            var $btncontainer = $field.closest('.afield').find(o.btnContainer);
 			if ($btncontainer.length == 0) {
 				return false;
 			}
@@ -612,8 +641,9 @@
 			$btncontainer.removeClass('quicksave');
 			//remove button container if it is empty
 			if( ($btncontainer.text()).length == 0 ){
-				$btncontainer.remove();
-			}
+				//do not remove for now. Isues in country/zones
+				//$btncontainer.remove();
+			}			
 		}
 
 		function saveField(elem, url) {		
@@ -622,7 +652,6 @@
 		    //find a button container
 		    var $grp = $wrapper.find(o.btnGrpSelector);
 		    var $err = false;
-		    $ajax_result = $('<span class="help-block ajax_result"></span>');
 		
 		    if ($field.parent('#product_related').length) {
 		        $wrapper = $field.parent('#product_related');
@@ -655,7 +684,14 @@
 		    });
 		
 		    $data = $wrapper.find('input, select, textarea').serialize();
-		
+
+			//if impty and we have select, need to pass blank value 
+			if (!$data) {
+			    $wrapper.find('select').each(function () {
+					$data += $(this).attr('name')+'=\'\'&';
+			    });		
+			}
+
 		    $wrapper.find('input.aswitcher').each(function () {
 		        $data += '&' + $(this).attr('name')+'='+$(this).val();
 		        if (!need_reload) {
@@ -676,10 +712,10 @@
 		
 		    if (!$err) {
 		    	//show ajax wrapper
-		        $ajax_result.insertAfter($wrapper).html('<span class="ajax_loading">Saving...</span>').show();
+		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
 		            url:url,
-		            type:"post",
+		            type:"POST",
 		            dataType:"text",
 		            data:$data,
 		            error:function (data) {
@@ -691,10 +727,8 @@
 		                    $error_text = '<span class="ajax_error">There\'s an error in the request.</span>';
 		                }
 		                // show ajax error and fadeout
-		                $ajax_result.html($error_text).delay(2500).fadeOut(3000, function () {
-							$(this).remove();
-							$field.focus();
-		                });
+		                remove_alert(growl);
+		                error_alert($error_text, true);                
 		                $('.field_err', $wrapper).remove();
 		                $field.focus();
 		             
@@ -705,19 +739,20 @@
 		                }
 		            },
 		            success:function (data) {
+		            	if (!data) {
+		            		data = o.saved_txt;
+		            	}
 		                if (need_reload) {
 		                    $wrapper.parents('form').prop('changed','submit');
 		                    window.location.reload();
 		                }
-						updateOriginalValue($field);		
-		                $ajax_result.html('<span class="ajax_success">' + data + '</span>').delay(2500).fadeOut(3000, function () {
-		                    $(this).remove();
-			                $ajax_result.remove();
-		                    $field.focus();
-		                });
+						updateOriginalValue($field);	
+						$field.focus();
 		                $wrapper.parent().removeClass('has-error');
 		                $field.removeClass('has-error');
 		                removeQuickSave($field);
+						remove_alert(growl);	
+						success_alert(data, true);
 		            }
 		        });	
 		    }
@@ -749,7 +784,7 @@
     				//alert($elem.parent().html());
     				$elem.parent().find('*').removeClass('changed');
     			});
-			},
+			}
   		});
 				
 		/* Process each form's element */
@@ -812,9 +847,6 @@ jQuery(document).ready(function() {
 	//Convert span help to toggles
 	spanHelp2Toggles();
 
-	//form fields
-	$(".chosen-select").chosen({'width':'100%','white-space':'nowrap'});
-
     $('.switcher').bind('click', function () {
         $(this).find('.option').slideDown('fast');
     });
@@ -871,7 +903,7 @@ var formOnExit = function(){
     $("form").bind("keypress", function(e) {
         if (e.keyCode == 13){
             if($(document.activeElement)){
-                if($(document.activeElement).parents('.changed').length>0){
+                if($(document.activeElement).parents('.changed').length > 0){
                         return false;
                 }
             }
@@ -907,6 +939,3 @@ var resetAForm = function(selector){
 		$field.removeClass('changed');
 	});
 }
-
-
-

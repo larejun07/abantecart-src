@@ -28,7 +28,6 @@ foreach($all_columns as $c){
 }
 
 
-
 $icons = array(
 		array('catalog', '<i class="fa fa-folder-open"></i>&nbsp;'),
 		array('sale', '<i class="fa fa-flag-o"></i>&nbsp;'),
@@ -119,6 +118,47 @@ foreach($icons as $row){
 	$this->db->query($sql);
 }
 
+//add new menu
+$m = new AMenu('admin');
+$m->insertMenuItem(
+		array(
+			'item_id' => 'marketplace',
+			'item_text' => 'text_extensions_store',
+			"item_url" => 'window.open(\'http://marketplace.abantecart.com\');',
+			"item_icon_rl_id" => '<i class="fa fa-puzzle-piece"></i>&nbsp;',
+			"parent_id" => 'help',
+			"sort_order" => 4,
+			"item_type" => 'core'));
+
+
+//add triggers
+//select all tables with date_added
+/*
+$tables_sql = "
+	SELECT DISTINCT TABLE_NAME 
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE COLUMN_NAME IN ('date_added')
+    AND TABLE_SCHEMA='" . DB_DATABASE . "'";
+
+$query = $this->db->query( $tables_sql);
+foreach ($query->rows as $t) {
+	$table_name = $t['TABLE_NAME'];
+	$triger_name = $table_name . "_date_add_trg";
+
+	$triger_checker = $this->db->query("SELECT TRIGGER_NAME
+						FROM information_schema.triggers
+						WHERE TRIGGER_SCHEMA = '" . DB_DATABASE . "' AND TRIGGER_NAME = '$triger_name'");
+	if (!$query->row[0]) {
+		$sql = "
+		CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
+		BEGIN
+    		SET NEW.date_added = NOW();
+		END;
+		";
+		$this->db->query($sql);
+	}	
+}
+*/
 
 //clear cache after upgrade       					
 $this->cache->delete('*');

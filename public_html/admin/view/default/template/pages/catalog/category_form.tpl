@@ -1,27 +1,10 @@
-<?php if (!empty($error['warning'])) { ?>
-<div class="warning alert alert-error alert-danger"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $category_tabs ?>
-<div class="tab-content">
+<div id="content" class="tab-content panel panel-default">
 
 	<div class="panel-heading">
-
-			<div class="pull-right">
-			    <div class="btn-group mr10 toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip" title="" data-original-title="Help">
-                    <i class="fa fa-question-circle"></i>
-                    </a>
-                    <?php endif; ?>
-			    </div>
-                <?php echo $form_language_switch; ?>
-			</div>
-
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
 	<?php echo $form['form_open']; ?>
@@ -60,7 +43,7 @@
 
 	<div class="panel-footer">
 		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-3">
+		   <div class="col-sm-6 col-sm-offset-4">
 		     <button class="btn btn-primary">
 		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 		     </button>&nbsp;
@@ -74,19 +57,20 @@
 
 </div><!-- <div class="tab-content"> -->
 
-<div id="image">
-   <?php if ( !empty($update) ) {
-	echo $resources_html;
-	echo $resources_scripts;
-} ?>
+<div class="tab-content">
+	<div class="panel-body">
+	<div id="image">
+	   <?php if ( !empty($update) ) {
+		echo $resources_html;
+		echo $resources_scripts;
+	} ?>
+	</div>
+	</div>
 </div>
-
-
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-
 
 	$('#editFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
@@ -105,6 +89,5 @@
 	    filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
 	});
-
 
 //--></script>
