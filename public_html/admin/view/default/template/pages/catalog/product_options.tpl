@@ -4,11 +4,10 @@
 
 <?php echo $product_tabs ?>
 
-<div id="content" class="tab-content">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
-
-		<div class="pull-left form-inline">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left form-inline">
 			<div class="form-group">
 				<div class="input-group input-group-sm">
 					<label><?php echo $tab_option; ?></label>
@@ -28,33 +27,15 @@
                     </a>
 			</div>
 		</div>
-
-		<div class="pull-right">
-
-			<div class="btn-group mr10 toolbar">
-				<?php echo $form_language_switch; ?>
-			</div>
-
-			<div class="btn-group mr10 toolbar">
-				<?php if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
-			</div>
-		</div>
-
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
-	<div class="panel-body panel-body-nopadding" id="option_values">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12" id="option_values">
 		<?php //# Options HTML loaded from responce controller rt=product/product/load_option ?>		
 	</div>
 </div>
 
 <?php
-
-
 $modal_content = '<div class="add-option-modal" >
 			<div class="panel panel-default">
 			    <div id="collapseTwo" >
@@ -63,31 +44,31 @@ $modal_content = '<div class="add-option-modal" >
 			    		'.$attributes.'
 			    		<div class="mt10 options_buttons" id="option_name_block">
 			    			<div class="form-group '. (!empty($error['status']) ? "has-error" : "") .'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'. $entry_status.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$status->element_id.'">'. $entry_status.'</label>
 			    				<div class="input-group afield ">
 			    					'.$status.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['option']) ? "has-error" :"").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_option.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$option_name->element_id.'">'.$entry_option.'</label>
 			    				<div class="input-group afield ">
 			    					'.$option_name.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['element_type']) ? "has-error" : "").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_element_type.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$element_type->element_id.'">'.$entry_element_type.'</label>
 			    				<div class="input-group afield ">
 			    					'.$element_type.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['sort_order']) ? "has-error" : "") .'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_sort_order.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$sort_order->element_id.'">'.$entry_sort_order.'</label>
 			    				<div class="input-group afield ">
 			    					'.$sort_order.'
 			    				</div>
 			    			</div>
 			    			<div class="form-group '.(!empty($error['required']) ? "has-error" : "").'">
-			    				<label class="control-label col-sm-3 col-xs-12" for="'.$field->element_id.'">'.$entry_required.'</label>
+			    				<label class="control-label col-sm-3 col-xs-12" for="'.$required->element_id.'">'.$entry_required.'</label>
 			    				<div class="input-group afield ">
 			    					'.$required.'
 			    				</div>
@@ -118,8 +99,6 @@ echo $this->html->buildElement(
 				'title' => $text_add_new_option,
 				'content' => $modal_content));
 ?>
-
-
 
 <?php echo $resources_scripts; ?>
 <script type="text/javascript"><!--

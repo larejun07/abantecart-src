@@ -58,7 +58,7 @@
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($form['fields'] as $name => $field) { ?>
 			<?php
-				//Logic to cululate fileds width
+				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
 					$widthcasses = "col-sm-7";
@@ -71,7 +71,7 @@
 				}
 				$widthcasses .= " col-xs-12";
 			?>
-		<div id="<?php echo $field->element_id.'_fld'; ?>" class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+		<div id="<?php echo $field->element_id.'_fld'; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php
@@ -113,10 +113,10 @@
 		<div class="row">
 		   <div class="col-sm-6 col-sm-offset-3 center" >
 		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+		     <i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 		     </button>&nbsp;
 		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+		     <i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 		     </a>
 		   </div>
 		</div>
@@ -132,19 +132,13 @@ echo $resources_scripts ?>
 
 
 <script type="text/javascript"><!--
-
 jQuery(function ($) {
-
-
     $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
     $('#settingFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });
-
-
 });
 <?php if ($active == 'mail') { ?>
-
 jQuery(function () {
     $(document).ready(mail_toggle);
     $('#settingFrm_config_mail_protocol').change(mail_toggle);
@@ -171,10 +165,8 @@ jQuery(function () {
     }
 
 });
-    <?php } ?>
+<?php } ?>
 //--></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function () {
     if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {

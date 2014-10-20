@@ -93,7 +93,7 @@
 		continue;
 	}
 
-	//Logic to cululate fileds width
+	//Logic to calculate fields width
 	$widthcasses = "col-sm-7";
 	if (is_int(stripos($field['value']->style, 'large-field'))) {
 		$widthcasses = "col-sm-7";
@@ -106,7 +106,7 @@
 	}
 	$widthcasses .= " col-xs-12";
 	?>
-	<div class="form-group <? if (!empty($error[$name])) {
+	<div class="form-group <?php if (!empty($error[$name])) {
 		echo "has-error";
 	} ?>">
 		<label class="control-label col-sm-3 col-xs-12"
@@ -156,42 +156,41 @@
 						</div>
 					<?php } ?>
 				</div>
-
-				<div id="blueimp-gallery" class="blueimp-gallery">
-					<!-- The container for the modal slides -->
-					<div class="slides"></div>
-					<!-- Controls for the borderless lightbox -->
-					<h3 class="title"></h3>
-					<a class="prev">‹</a>
-					<a class="next">›</a>
-					<a class="close">×</a>
-					<a class="play-pause"></a>
-					<ol class="indicator"></ol>
-					<!-- The modal dialog, which will be used to wrap the lightbox content -->
-					<div class="modal fade">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" aria-hidden="true">&times;</button>
-									<h4 class="modal-title"></h4>
-								</div>
-								<div class="modal-body next"></div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default pull-left prev">
-										<i class="glyphicon glyphicon-chevron-left"></i>
-										<?php echo $text_previous; ?>
-									</button>
-									<button type="button" class="btn btn-primary next">
-										<?php echo $text_next; ?>
-										<i class="glyphicon glyphicon-chevron-right"></i>
-									</button>
-								</div>
-							</div>
-						</div>
+			<?php } ?>
+		</div>
+	</div>
+	<?php //MODAL FOR IMAGE GALLERY ?>
+	<div id="blueimp-gallery" class="blueimp-gallery">
+		<!-- The container for the modal slides -->
+		<div class="slides"></div>
+		<!-- Controls for the borderless lightbox -->
+		<h3 class="title"></h3>
+		<a class="prev">‹</a>
+		<a class="next">›</a>
+		<a class="close">×</a>
+		<a class="play-pause"></a>
+		<ol class="indicator"></ol>
+		<!-- The modal dialog, which will be used to wrap the lightbox content -->
+		<div class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" aria-hidden="true">&times;</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body next"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left prev">
+							<i class="glyphicon glyphicon-chevron-left"></i>
+							<?php echo $text_previous; ?>
+						</button>
+						<button type="button" class="btn btn-primary next">
+							<?php echo $text_next; ?>
+							<i class="glyphicon glyphicon-chevron-right"></i>
+						</button>
 					</div>
 				</div>
-
-			<?php } ?>
+			</div>
 		</div>
 	</div>
 <?php } ?>

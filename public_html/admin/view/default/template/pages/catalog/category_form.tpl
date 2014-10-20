@@ -1,20 +1,20 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $category_tabs ?>
-<div id="content" class="tab-content panel panel-default">
+<div id="content" class="panel panel-default">
 
-	<div class="panel-heading">
+	<div class="panel-heading col-xs-12">
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<?php foreach ($form['fields'] as $section => $fields) { ?>
 		<label class="h4 heading" id="<?php echo $section;?>"><?php echo ${'tab_' . $section}; ?></label>
 			<?php foreach ($fields as $name => $field) { ?>
 			<?php
-				//Logic to cululate fileds width
+				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
 					$widthcasses = "col-sm-7";
@@ -27,7 +27,7 @@
 				}
 				$widthcasses .= " col-xs-12";
 			?>
-		<div class="form-group <? if (!empty($error[$name])) { echo "has-error"; } ?>">
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>
@@ -41,16 +41,17 @@
 
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-		   <div class="col-sm-6 col-sm-offset-4">
-		     <button class="btn btn-primary">
-		     <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-		     </button>&nbsp;
-		     <a class="btn btn-default" href="<?php echo $cancel; ?>">
-		     <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-		     </a>
-		   </div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
 	</div>
 	</form>
@@ -68,10 +69,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
-
 	$('#editFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
@@ -89,5 +87,4 @@
 	    filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
 	});
-
 //--></script>

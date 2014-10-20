@@ -212,6 +212,7 @@ class ControllerPagesCatalogProduct extends AController {
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign ( 'search_form', $grid_search_form );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/product/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('product_listing') );
@@ -248,6 +249,10 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));
 
+		$this->view->assign('error_warning', $this->session->data['warning']);
+		if (isset($this->session->data['warning'])) {
+			unset($this->session->data['warning']);
+		}
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
@@ -273,9 +278,14 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));
 		if (isset($this->request->get['product_id']) && $this->_validateCopy()) {
-			$name = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
-			$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $name);
-			$this->redirect($this->html->getSecureURL('catalog/product'));
+			$new_product = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
+			if ( $new_product ) {
+				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $new_product['name']);
+				$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$new_product['id']));
+			} else {			
+				$this->session->data['success'] = $this->language->get('text_error_copy');
+				$this->redirect($this->html->getSecureURL('catalog/product'));
+			}
 		}
 
         //update controller data
